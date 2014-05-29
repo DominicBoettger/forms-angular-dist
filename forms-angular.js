@@ -1,4 +1,4 @@
-/*! forms-angular 2014-05-28 */
+/*! forms-angular 2014-05-29 */
 'use strict';
 
 var formsAngular = angular.module('formsAngular', [
@@ -12,7 +12,8 @@ var formsAngular = angular.module('formsAngular', [
   'infinite-scroll',
   'monospaced.elastic',
   'ngCkeditor',
-  'uploadModule'
+  'uploadModule',
+  'ui.bootstrap.datetimepicker'
 ]);
 
 void(formsAngular);  // Make jshint happy
@@ -510,8 +511,7 @@ formsAngular.controller('BaseCtrl', ['$scope', '$routeParams', '$location', '$ht
             if (formInstructions.readonly) {
               formInstructions.type = 'text';
             } else {
-              formInstructions.type = 'text';
-              formInstructions.add = 'ui-date ui-date-format ';
+              formInstructions.type = 'datetime';
             }
           }
         } else if (mongooseType.instance === 'boolean') {
@@ -1914,6 +1914,9 @@ formsAngular
               } else {
                 value = generateDefault(common, options, fieldInfo);
               }
+              break;
+            case 'datetime':
+              value = '<div class="dropdown"><a class="dropdown-toggle my-toggle-select" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href=""><div class="input-append"><input type="text" class="input-large" data-ng-model="'+modelString+ '"><span class="add-on"><i class="icon-calendar"></i></span></div></a><ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"><datetimepicker data-ng-model="'+modelString+'" data-datetimepicker-config="{ dropdownSelector: \'.my-toggle-select\' }"></datetimepicker></ul></div>';
               break;
             default:
               common += 'class="' + formControl.trim() + compactClass + sizeClassBS2 + '"' + (fieldInfo.add ? fieldInfo.add : '');
