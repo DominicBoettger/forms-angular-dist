@@ -1,4 +1,4 @@
-/*! forms-angular 2014-05-29 */
+/*! forms-angular 2014-06-11 */
 'use strict';
 
 var formsAngular = angular.module('formsAngular', [
@@ -516,16 +516,6 @@ formsAngular.controller('BaseCtrl', ['$scope', '$routeParams', '$location', '$ht
           }
         } else if (mongooseType.instance === 'boolean') {
           formInstructions.type = 'checkbox';
-        } else if (mongooseOptions.form.type === 'fileuploader') {
-          if (mongooseOptions.form.name) {
-            $scope.$watchCollection('filequeue.' + mongooseOptions.form.name, function (newvar) {
-              $scope.record[mongooseOptions.form.name] = newvar;
-            });
-
-            $scope.$watchCollection('record.' + mongooseOptions.form.name, function (newvar) {
-              $scope.filequeue[mongooseOptions.form.name] = newvar;
-            });
-          }
         } else if (mongooseType.instance === 'Number') {
           formInstructions.type = 'number';
           if (mongooseOptions.min) {
@@ -539,6 +529,16 @@ formsAngular.controller('BaseCtrl', ['$scope', '$routeParams', '$location', '$ht
           }
         } else if (mongooseType.instance === 'file') {
           formInstructions.type = 'fileuploader';
+        } else if (mongooseOptions.form && mongooseOptions.form.type === 'fileuploader') {
+          if (mongooseOptions.form.name) {
+            $scope.$watchCollection('filequeue.' + mongooseOptions.form.name, function (newvar) {
+              $scope.record[mongooseOptions.form.name] = newvar;
+            });
+
+            $scope.$watchCollection('record.' + mongooseOptions.form.name, function (newvar) {
+              $scope.filequeue[mongooseOptions.form.name] = newvar;
+            });
+          }
         } else {
           throw new Error('Field ' + formInstructions.name + ' is of unsupported type ' + mongooseType.instance);
         }
